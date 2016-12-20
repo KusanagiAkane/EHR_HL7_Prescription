@@ -1,0 +1,29 @@
+$('.bubbleHover').click(function (e) {
+	var x = e.pageX - this.offsetLeft;
+	var y = e.pageY - this.offsetTop;
+
+	if(this.offsetLeft != 0){
+		x = e.clientX; 
+		y = e.clientY; 	
+	}
+
+	var leftpos = x-175;
+	var toppos 	= y-475;
+	
+	if($('.timeline-bubble').css('display') == 'none'){
+		state = 'closed'
+		if(leftpos < 0){
+			$('.timeline-bubble').css('left',10).css('top',toppos);
+		} else if(leftpos+$('.timeline-bubble').width() > $('body').width()){
+			$('.timeline-bubble').css('left',$('body').width()-$('.timeline-bubble').width()-30).css('top',toppos);
+		} else {
+			$('.timeline-bubble').css('left',leftpos).css('top',toppos);
+		}
+		$('.timeline-bubble').show()
+		$('.timeline-content').load($(this).attr('rel'));
+	} else {
+		state = 'open';
+		$('.timeline-bubble').hide()
+	}
+	
+});

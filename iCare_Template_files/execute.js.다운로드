@@ -1,0 +1,77 @@
+// JavaScript Document
+//handles resizing the iframe to fix perfect
+function resize(){
+	var innerheight 	= ($(window).height()-38);
+	var innerWidth 		= ($('#header').width());
+	var sidebarWidth 	= ($('.leftbar').width());
+	
+	$('.leftbar-closed').css('height',innerheight);
+	$('.leftbar-open').css('height',innerheight);	
+	$('#window').css('height',innerheight).width(innerWidth-sidebarWidth-1).css('float','right');	
+}
+$(document).ready(function(){
+	
+	//hide message_body after the first one
+	$(".message_list .message_body:gt(0)").hide();
+	
+	//toggle sidebar headers
+	$(".message_head").click(function(){
+		$(this).next(".message_body").slideToggle(500)
+		return false;
+	});
+ 
+	//left arrow close button
+	$(".left-close").click(function(){
+		$('.leftbar').css('width','20px')
+		$('.leftbar-open').hide()
+		$('#logo').hide()
+		$('.leftbar-closed').show()
+		resize()
+		return false;
+	});		 
+	//right arrow open button
+	$(".right-open").click(function(){
+		$('.leftbar').css('width','220px')
+		$('.leftbar-closed').hide()
+		$('.leftbar-open').show()
+		$('#logo').show()
+		resize()
+		return false;
+	});
+		
+	//left arrow close button
+	$(".down-close").click(function(){
+		if($('.timeline-bubble').css('display') == 'block'){
+			$('.timeline-bubble').toggle();
+		}
+		$('.footerbar-open').hide()
+		$('.footerbar-closed').show()
+		resize()
+		return false;
+	});		 
+	//right arrow open button
+	$(".up-open").click(function(){
+		$('.footerbar-closed').hide()
+		$('.footerbar-open').show()
+		$('#logo').show()
+		resize()
+		return false;
+	});
+		
+
+	$('.tab-list')
+		.find('li')
+		.each(function () {
+			var favico = $(this).attr('rel') ? $(this).attr('rel') : 'home.png';
+			// Assests for tab look
+			$(this).find('a').css('background-image', 'url(' + favico + ')');			
+	}).click(function (e) {
+		$(this).addClass('current').siblings('li').removeClass('current');
+													
+		$('#window').attr('src', $(this).find('a').attr('href'));
+		e.preventDefault();
+	})
+	
+	//constantly resize the iframe so its always perfect.
+	setInterval("resize()",10); 
+});
